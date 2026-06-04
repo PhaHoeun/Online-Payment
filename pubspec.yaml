@@ -13,8 +13,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  flutter_paypal_payment: ^1.0.8
-  flutter_inappwebview: ^6.1.5
+  flutter_paypal_checkout: ^1.0.1
 
 dev_dependencies:
   flutter_test:
