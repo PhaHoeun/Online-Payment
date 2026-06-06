@@ -80,10 +80,17 @@ class _PaypalScreenState extends State<PaypalScreen> {
                               ),
                             ),
                           ),
-                          title: Text(item.name),
-                          subtitle: Text(item.description),
+                          title: Text(
+                            item.name,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          subtitle: Text(
+                            item.description,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                           trailing: Text(
                             '${item.quantity} x \$${item.unitAmount.toStringAsFixed(2)}',
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
                       ),
@@ -122,13 +129,14 @@ class _PaypalScreenState extends State<PaypalScreen> {
                     GestureDetector(
                       onTap: () => _startV2MobileFlow(context),
                       child: Card(
+                        shadowColor: Colors.transparent,
                         color: Colors.cyan,
                         margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-                        child: const Padding(
+                        child:  Padding(
                           padding: EdgeInsets.all(16.0),
                           child: Text(
                             'Checkout',
-                            style: TextStyle(color: Colors.white),
+                           style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
                       ),

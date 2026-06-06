@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Card(
                 color: Colors.cyan,
+                shadowColor: Colors.transparent,
                 margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
                 child: const Padding(
                   padding: EdgeInsets.all(16.0),
@@ -47,10 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Card(
                 color: Colors.cyan,
+                shadowColor: Colors.transparent,
                 margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
                 child: const Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: Text('Paypal', style: TextStyle(color: Colors.white)),
+                  child: Text('PayPal', style: TextStyle(color: Colors.white)),
                 ),
               ),
             ),
