@@ -113,14 +113,14 @@ class _PaypalScreenState extends State<PaypalScreen> {
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Text(
-                          'Tax: \$10.00',
+                          'Tax: \$0.00',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
 
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: Text(
-                            'Total: \$410.00',
+                            'Total: \$400.00',
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
@@ -163,12 +163,12 @@ class _PaypalScreenState extends State<PaypalScreen> {
       ),
       purchaseUnits: [
         PayPalPurchaseUnitV2(
-          invoiceId: 'INV-000002',
+          invoiceId: 'INV-000003',
           amount: PayPalAmountV2(
             currency: 'USD',
-            value: 410.0, // total amount
+            value: 400.0, // total amount
             itemTotal: 400.0, // sum of items
-            taxTotal: 10.0, // total tax
+            taxTotal: 0.0, // total tax
           ),
           items: [...items],
         ),
