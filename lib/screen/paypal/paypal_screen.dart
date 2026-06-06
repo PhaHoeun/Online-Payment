@@ -1,30 +1,140 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_paypal_payment_checkout_v2/flutter_paypal_payment_checkout_v2.dart';
+import 'package:flutter_paypal_payment_checkout_v2/flutter_paypal_payment_checkout_v2.dart'
+    hide State;
+import 'package:gap/gap.dart';
 
-class PaypalScreen extends StatelessWidget {
+class PaypalScreen extends StatefulWidget {
   const PaypalScreen({super.key});
 
+  @override
+  State<PaypalScreen> createState() => _PaypalScreenState();
+}
+
+class _PaypalScreenState extends State<PaypalScreen> {
   static const String _paypalClientId =
       'AWRRJy2dv9EyT_47T72w3IR2pxFinZOznKA-aeqUWRVAZ0f-ieXceIsBJrQxIDFHTMm0mn56_ohG0wfn';
   static const String _paypalSecretKey =
       'EDScH3kfhYIrqicoxXeJbBuXcuhkRG9ItlbAynjEMupi76-iMvKRKp98VN2zYxvMNZynedrIRZYuFI3R';
-
+  var items = <PaypalTransactionV2Item>[
+    PaypalTransactionV2Item(
+      name: 'Apple',
+      description: 'Fresh red apples',
+      quantity: 1,
+      unitAmount: 100.0,
+      currency: 'USD',
+      category: PayPalItemCategoryV2.physicalGoods,
+      sku: 'SKU_APPLE',
+      imageUrl:
+          'https://img.lb.wbmdstatic.com/vim/live/webmd/consumer_assets/site_images/articles/health_tools/healing_foods_slideshow/1800ss_getty_rf_apples.jpg?resize=750px:*&output-quality=75',
+    ),
+    PaypalTransactionV2Item(
+      name: 'Banana',
+      description: 'Fresh yellow bananas',
+      quantity: 5,
+      unitAmount: 30.0,
+      currency: 'USD',
+      category: PayPalItemCategoryV2.physicalGoods,
+      sku: 'SKU_BANANA',
+      imageUrl:
+          'https://www.dole.com/sites/default/files/styles/512w512h-80/public/media/2025-02/Dole_HP_Motiv_1080x1080px_Banane_0.jpg?itok=_qbPhqIY-_u0SMyQV',
+    ),
+    PaypalTransactionV2Item(
+      name: 'Orange',
+      description: 'Fresh orange',
+      quantity: 3,
+      unitAmount: 50.0,
+      currency: 'USD',
+      category: PayPalItemCategoryV2.physicalGoods,
+      sku: 'SKU_ORANGE',
+      imageUrl: 'https://www.fruitsmith.com/pub/media/wysiwyg/Orange.jpg',
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('PayPal Payment'), centerTitle: true),
+      appBar: AppBar(title: const Text('Checkout'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+
             children: [
-              ElevatedButton(
-                onPressed: () => _startV2MobileFlow(context),
-                child: const Text('Checkout'),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ...items.map(
+                        (item) => ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.grey[200],
+                              image: DecorationImage(
+                                image: NetworkImage(item.imageUrl!),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          title: Text(item.name),
+                          subtitle: Text(item.description),
+                          trailing: Text(
+                            '${item.quantity} x \$${item.unitAmount.toStringAsFixed(2)}',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Gap(16),
+              Divider(),
+              Gap(10),
+              SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Subtotal: \$400.00',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Text(
+                          'Tax: \$10.00',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Text(
+                            'Total: \$410.00',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () => _startV2MobileFlow(context),
+                      child: Card(
+                        color: Colors.cyan,
+                        margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(
+                            'Checkout',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -45,42 +155,14 @@ class PaypalScreen extends StatelessWidget {
       ),
       purchaseUnits: [
         PayPalPurchaseUnitV2(
-          invoiceId: 'INV-123456',
+          invoiceId: 'INV-000002',
           amount: PayPalAmountV2(
             currency: 'USD',
             value: 410.0, // total amount
             itemTotal: 400.0, // sum of items
             taxTotal: 10.0, // total tax
           ),
-          items: [
-            PaypalTransactionV2Item(
-              name: 'Apple',
-              description: 'Fresh red apples',
-              quantity: 1,
-              unitAmount: 100.0,
-              currency: 'USD',
-              category: PayPalItemCategoryV2.physicalGoods,
-              sku: 'SKU_APPLE',
-            ),
-            PaypalTransactionV2Item(
-              name: 'Banana',
-              description: 'Fresh yellow bananas',
-              quantity: 5,
-              unitAmount: 30.0,
-              currency: 'USD',
-              category: PayPalItemCategoryV2.physicalGoods,
-              sku: 'SKU_BANANA',
-            ),
-            PaypalTransactionV2Item(
-              name: 'Orange',
-              description: 'Fresh orange',
-              quantity: 3,
-              unitAmount: 50.0,
-              currency: 'USD',
-              category: PayPalItemCategoryV2.physicalGoods,
-              sku: 'SKU_ORANGE',
-            ),
-          ],
+          items: [...items],
         ),
       ],
     );
