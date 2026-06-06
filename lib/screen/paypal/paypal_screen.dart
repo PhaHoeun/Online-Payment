@@ -22,7 +22,7 @@ class _PaypalScreenState extends State<PaypalScreen> {
       name: 'Apple',
       description: 'Fresh red apples',
       quantity: 1,
-      unitAmount: 100.0,
+      unitAmount: 30.0,
       currency: 'USD',
       category: PayPalItemCategoryV2.physicalGoods,
       sku: 'SKU_APPLE',
@@ -33,7 +33,7 @@ class _PaypalScreenState extends State<PaypalScreen> {
       name: 'Banana',
       description: 'Fresh yellow bananas',
       quantity: 5,
-      unitAmount: 30.0,
+      unitAmount: 5.0,
       currency: 'USD',
       category: PayPalItemCategoryV2.physicalGoods,
       sku: 'SKU_BANANA',
@@ -44,13 +44,21 @@ class _PaypalScreenState extends State<PaypalScreen> {
       name: 'Orange',
       description: 'Fresh orange',
       quantity: 3,
-      unitAmount: 50.0,
+      unitAmount: 10.0,
       currency: 'USD',
       category: PayPalItemCategoryV2.physicalGoods,
       sku: 'SKU_ORANGE',
       imageUrl: 'https://www.fruitsmith.com/pub/media/wysiwyg/Orange.jpg',
     ),
   ];
+
+  double get itemTotal =>
+      items.fold(0.0, (sum, item) => sum + item.unitAmount * item.quantity);
+
+  double get taxTotal => 0.0;
+
+  double get total => itemTotal + taxTotal;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,18 +117,18 @@ class _PaypalScreenState extends State<PaypalScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Subtotal: \$400.00',
+                          'Subtotal: \$${itemTotal.toStringAsFixed(2)}',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Text(
-                          'Tax: \$0.00',
+                          'Tax: \$${taxTotal.toStringAsFixed(2)}',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
 
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: Text(
-                            'Total: \$400.00',
+                            'Total: \$${total.toStringAsFixed(2)}',
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
@@ -132,11 +140,11 @@ class _PaypalScreenState extends State<PaypalScreen> {
                         shadowColor: Colors.transparent,
                         color: Colors.cyan,
                         margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-                        child:  Padding(
+                        child: Padding(
                           padding: EdgeInsets.all(16.0),
                           child: Text(
                             'Checkout',
-                           style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
                       ),
@@ -166,9 +174,9 @@ class _PaypalScreenState extends State<PaypalScreen> {
           invoiceId: 'INV-000003',
           amount: PayPalAmountV2(
             currency: 'USD',
-            value: 400.0, // total amount
-            itemTotal: 400.0, // sum of items
-            taxTotal: 0.0, // total tax
+            value: total, // total amount
+            itemTotal: itemTotal, // sum of items
+            taxTotal: taxTotal, // total tax
           ),
           items: [...items],
         ),
