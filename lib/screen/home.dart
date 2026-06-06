@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_payment/screen/alipay/alipay_screen.dart';
 import 'package:online_payment/screen/paypal/paypal_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +18,25 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //Open PDF
+            //Open AliPay
+            GestureDetector(
+              onTap: () {
+                // Handle tap event for "Open Setting"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AlipayScreen()),
+                );
+              },
+              child: Card(
+                color: Colors.cyan,
+                margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text('AliPay', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+            //Open Paypal
             GestureDetector(
               onTap: () {
                 // Handle tap event for "Open Setting"
