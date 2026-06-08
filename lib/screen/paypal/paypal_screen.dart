@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_paypal_payment_checkout_v2/flutter_paypal_payment_checkout_v2.dart'
     hide State;
 import 'package:gap/gap.dart';
@@ -13,10 +14,21 @@ class PaypalScreen extends StatefulWidget {
 }
 
 class _PaypalScreenState extends State<PaypalScreen> {
-  static const String _paypalClientId =
-      'AWRRJy2dv9EyT_47T72w3IR2pxFinZOznKA-aeqUWRVAZ0f-ieXceIsBJrQxIDFHTMm0mn56_ohG0wfn';
-  static const String _paypalSecretKey =
-      'EDScH3kfhYIrqicoxXeJbBuXcuhkRG9ItlbAynjEMupi76-iMvKRKp98VN2zYxvMNZynedrIRZYuFI3R';
+  // Load credentials from .env file (secure, not hardcoded)
+  late final String _paypalClientId;
+  late final String _paypalSecretKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _paypalClientId = dotenv.env['PAYPAL_CLIENT_ID'] ?? '';
+    _paypalSecretKey = dotenv.env['PAYPAL_SECRET_KEY'] ?? '';
+
+    if (_paypalClientId.isEmpty || _paypalSecretKey.isEmpty) {
+      debugPrint('⚠️ PayPal credentials not found in .env file');
+    }
+  }
+
   var items = <PaypalTransactionV2Item>[
     PaypalTransactionV2Item(
       name: 'Apple',
@@ -171,7 +183,7 @@ class _PaypalScreenState extends State<PaypalScreen> {
       ),
       purchaseUnits: [
         PayPalPurchaseUnitV2(
-          invoiceId: 'INV-000003',
+          invoiceId: 'INV-000004',
           amount: PayPalAmountV2(
             currency: 'USD',
             value: total, // total amount

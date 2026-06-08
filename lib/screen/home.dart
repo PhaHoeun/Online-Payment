@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_payment/screen/alipay/alipay_screen.dart';
 import 'package:online_payment/screen/paypal/paypal_screen.dart';
+import 'package:online_payment/screen/wechat/wechat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             //Open Paypal
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 // Handle tap event for "Open Setting"
                 Navigator.push(
                   context,
@@ -53,6 +54,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text('PayPal', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+            //Open WeChat Pay
+            GestureDetector(
+              onTap: () async {
+                // Handle tap event for "Open Setting"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WeChatScreen()),
+                );
+              },
+              child: Card(
+                color: Colors.cyan,
+                shadowColor: Colors.transparent,
+                margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text('WeChat', style: TextStyle(color: Colors.white)),
                 ),
               ),
             ),

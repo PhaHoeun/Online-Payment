@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:online_payment/screen/home.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  _initEnv();
   runApp(const MyApp());
+}
+
+/// Initialize environment variables from .env file
+/// If .env file is not found, continue without it
+Future<void> _initEnv() async {
+  try {
+    await dotenv.load(fileName: '.env');
+    debugPrint('✅ Loaded environment variables from .env');
+  } catch (e) {
+    debugPrint('⚠️ Could not load .env file: $e');
+    debugPrint('ℹ️ Ensure .env file exists in project root');
+  }
 }
 
 class MyApp extends StatelessWidget {
